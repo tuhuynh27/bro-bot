@@ -18,20 +18,12 @@ async function processMessage(originalMessage, source) {
     const reason = reasonArray.join(' ') || 'No reason'
     debt = debt + num
 
-    const dt = new Date()
-    const date = `${
-      (dt.getMonth()+1).toString().padStart(2, '0')}/${
-      dt.getDate().toString().padStart(2, '0')}/${
-      dt.getFullYear().toString().padStart(4, '0')} ${
-      dt.getHours().toString().padStart(2, '0')}:${
-      dt.getMinutes().toString().padStart(2, '0')}:${
-      dt.getSeconds().toString().padStart(2, '0')}`
-
+    const broBotDate = new BroBotDate()
     const isTu = source.userId === 'Ub4d35a2b56a1253264c2bcebbe89a62a'
     const reporter = isTu ? 'TU' : 'DUY'
 
     logs.push({
-      date,
+      date: broBotDate.toString(),
       num,
       reason,
       reporter
@@ -50,6 +42,22 @@ async function processMessage(originalMessage, source) {
 
   if (message === 'get debt') {
     return `Current debt: ${debt}`
+  }
+}
+
+class BroBotDate {
+  constructor() {
+    this.date = new Date()
+  }
+  toString() {
+    const dt = this.date
+    return `${
+      (dt.getMonth()+1).toString().padStart(2, '0')}/${
+      dt.getDate().toString().padStart(2, '0')}/${
+      dt.getFullYear().toString().padStart(4, '0')} ${
+      dt.getHours().toString().padStart(2, '0')}:${
+      dt.getMinutes().toString().padStart(2, '0')}:${
+      dt.getSeconds().toString().padStart(2, '0')}`
   }
 }
 
