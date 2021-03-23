@@ -47,6 +47,10 @@ async function processMessage(originalMessage, source) {
     })
     return msg
   }
+
+  if (message === 'get debt') {
+    return `Current debt: ${debt}`
+  }
 }
 
 module.exports = processMessage
