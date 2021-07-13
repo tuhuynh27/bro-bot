@@ -20,7 +20,7 @@ async function processMessage(originalMessage, source) {
 
     const broBotDate = new BroBotDate()
     const isTu = source.userId === 'Ub4d35a2b56a1253264c2bcebbe89a62a'
-    const reporter = isTu ? 'TU' : 'DUY'
+    const reporter = isTu ? 'TU' : 'LAM'
 
     logs.push({
       date: broBotDate.toString(),
