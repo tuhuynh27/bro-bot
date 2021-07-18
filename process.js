@@ -1,10 +1,7 @@
-let debt = 0
-const logs = []
-
 // Hardcode
 // Tu Huynh ID: 'Ub4d35a2b56a1253264c2bcebbe89a62a'
 
-async function processMessage(originalMessage, source) {
+async function processMessage(originalMessage, source, { debt, logs }) {
   const message = originalMessage.trim().toLowerCase()
 
   // Logging

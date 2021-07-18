@@ -1,23 +1,64 @@
 require('dotenv').config();
 const express = require("express")
 const line = require("@line/bot-sdk")
+const fetch = require("node-fetch")
 
 const config = {
   channelAccessToken: process.env.ACCESS_TOKEN,
   channelSecret: process.env.SECRET
 }
 
+const GIST_TOKEN = process.env.GIST_TOKEN || ''
+const GIST_ID = process.env.GIST_ID || ''
+const GIST_FILENAME = process.env.GIST_FILENAME || ''
+
+async function getData() {
+  const req = await fetch(`https://api.github.com/gists/${GIST_ID}`)
+  const gist = await req.json();
+  return JSON.parse(gist.files[GIST_FILENAME].content);
+}
+
+async function setData(data) {
+  const req = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${GIST_TOKEN}`,
+    },
+    body: JSON.stringify({
+      files: {
+        [GIST_FILENAME]: {
+          content: JSON.stringify(data),
+        },
+      },
+    }),
+  })
+  return req.json()
+}
+
+const debtData = {
+  debt: 0,
+  logs: []
+}
+
+// Load debt data
+getData().then(result => {
+  debtData.debt = result.debt || 0
+  debtData.logs = result.logs || []
+})
+
 const PORT = process.env.PORT || 7777
 
 const app = express()
 const processMessage = require("./process")
+
 app.post("/webhook", line.middleware(config), (req, res) => {
   async function handleEvent(event) {
     if (event.type !== "message" || event.message.type !== "text") {
       return null;
     }
 
-    const responseMessage = await processMessage(event.message.text, event.source);
+    const responseMessage = await processMessage(event.message.text, event.source, debtData)
+    await setData(debtData)
     if (responseMessage) {
       const client = new line.Client(config)
 
