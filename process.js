@@ -54,6 +54,10 @@ async function processMessage(originalMessage, source, debtData) {
   if (message === 'get debt') {
     return `Current debt of Tú: ${debtData.debt}$ ~ ${debtData.debt * 17000}VND`
   }
+
+  if (message === 'link') {
+    return `Here bro https://gist.github.com/tuhuynh27/bcb67d0114d546029bf311185e4c5b86`
+  }
 }
 
 class BroBotDate {
