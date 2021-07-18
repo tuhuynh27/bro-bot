@@ -1,6 +1,8 @@
 // Hardcode
 // Tu Huynh ID: 'Ub4d35a2b56a1253264c2bcebbe89a62a'
 
+const moment = require("moment")
+
 async function processMessage(originalMessage, source, debtData) {
   const message = originalMessage.trim().toLowerCase()
 
@@ -34,7 +36,8 @@ async function processMessage(originalMessage, source, debtData) {
     const last10logs = debtData.logs.slice(Math.max(debtData.logs.length - 10, 0))
 
     last10logs.reverse().forEach(log => {
-      msg += `${log.num > 0 ? '+' : ''}${log.num} ${log.reason}\n`
+      const time = moment(log.date).fromNow()
+      msg += `${log.num > 0 ? '+' : ''}${log.num} ${log.reason} (${time})\n`
     })
     return msg
   }
