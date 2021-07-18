@@ -20,7 +20,7 @@ async function processMessage(originalMessage, source) {
 
     const broBotDate = new BroBotDate()
     const isTu = source.userId === 'Ub4d35a2b56a1253264c2bcebbe89a62a'
-    const reporter = isTu ? 'TU' : 'LAM'
+    const reporter = isTu ? 'Tú' : 'Lâm'
 
     logs.push({
       date: broBotDate.toString(),
@@ -29,7 +29,7 @@ async function processMessage(originalMessage, source) {
       reporter
     })
 
-    return `Okay got it! Debt now is ${debt}`
+    return `Okay got it! Debt of Tú now is ${debt}`
   }
 
   if (message === 'get log') {
@@ -37,7 +37,7 @@ async function processMessage(originalMessage, source) {
     const last10logs = logs.slice(Math.max(logs.length - 10, 0))
 
     last10logs.reverse().forEach(log => {
-      msg += `${log.num} [${log.reason}]\n`
+      msg += `${log.num} ${log.reason}\n`
     })
     return msg
   }
@@ -46,7 +46,7 @@ async function processMessage(originalMessage, source) {
     let msg = 'Transactions:\n'
 
     logs.reverse().forEach(log => {
-      msg += `[${log.date}] [${log.num}] [${log.reason}] by [${log.reporter}]\n`
+      msg += `[${log.date}] ${log.num} ${log.reason} log by [${log.reporter}]\n`
     })
     return msg
   }
