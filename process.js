@@ -37,7 +37,7 @@ async function processMessage(originalMessage, source) {
     const last10logs = logs.slice(Math.max(logs.length - 10, 0))
 
     last10logs.reverse().forEach(log => {
-      msg += `${log.num} ${log.reason}\n`
+      msg += `${log.num > 0 ? '+' : ''}${log.num} ${log.reason}\n`
     })
     return msg
   }
@@ -46,7 +46,7 @@ async function processMessage(originalMessage, source) {
     let msg = 'Transactions:\n'
 
     logs.reverse().forEach(log => {
-      msg += `[${log.date}] ${log.num} ${log.reason} log by [${log.reporter}]\n`
+      msg += `[${log.date}] ${log.num > 0 ? '+' : ''}${log.num} ${log.reason} log by [${log.reporter}]\n`
     })
     return msg
   }
