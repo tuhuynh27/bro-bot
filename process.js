@@ -13,7 +13,7 @@ async function processMessage(originalMessage, source) {
 
   if (message.startsWith('log ')) {
     const messageArray = message.split(' ')
-    const num = parseInt(messageArray[1])
+    const num = parseFloat(messageArray[1])
     const [, , ...reasonArray] = messageArray
     const reason = reasonArray.join(' ') || 'No reason'
     debt = debt + num
@@ -34,7 +34,18 @@ async function processMessage(originalMessage, source) {
 
   if (message === 'get log') {
     let msg = 'Transactions:\n'
-    logs.forEach(log => {
+    const last10logs = logs.slice(Math.max(logs.length - 10, 0))
+
+    last10logs.reverse().forEach(log => {
+      msg += `${log.num} [${log.reason}]\n`
+    })
+    return msg
+  }
+
+  if (message === 'get log verbose') {
+    let msg = 'Transactions:\n'
+
+    logs.reverse().forEach(log => {
       msg += `[${log.date}] [${log.num}] [${log.reason}] by [${log.reporter}]\n`
     })
     return msg
