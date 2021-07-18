@@ -55,7 +55,7 @@ async function processMessage(originalMessage, source, debtData) {
   }
 
   if (message === 'get debt') {
-    return `Current debt of Tú: ${debtData.debt}$ ~ ${debtData.debt * 17000}VND`
+    return `Current debt of Tú: ${debtData.debt}$ ~ ${(debtData.debt * 17000 / 1000).toFixed()}k VND`
   }
 
   if (message === 'link') {
