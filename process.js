@@ -26,11 +26,11 @@ async function processMessage(originalMessage, source, { debt, logs }) {
       reporter
     })
 
-    return `Okay got it! Debt of Tú now is ${debt}`
+    return `Debt of Tú now is ${debt}`
   }
 
   if (message === 'get log') {
-    let msg = 'Transactions:\n'
+    let msg = 'Latest Transactions:\n'
     const last10logs = logs.slice(Math.max(logs.length - 10, 0))
 
     last10logs.reverse().forEach(log => {
@@ -40,16 +40,16 @@ async function processMessage(originalMessage, source, { debt, logs }) {
   }
 
   if (message === 'get log verbose') {
-    let msg = 'Transactions:\n'
+    let msg = 'Transactions Verbose:\n'
 
     logs.reverse().forEach(log => {
-      msg += `[${log.date}] ${log.num > 0 ? '+' : ''}${log.num} ${log.reason} log by [${log.reporter}]\n`
+      msg += `[${log.date}] ${log.num > 0 ? '+' : ''}${log.num} ${log.reason} [${log.reporter}]\n`
     })
     return msg
   }
 
   if (message === 'get debt') {
-    return `Current debt: ${debt}`
+    return `Current debt of Tú: ${debt}$ ~ ${debt * 17000}VND`
   }
 }
 
