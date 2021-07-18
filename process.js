@@ -1,7 +1,7 @@
 // Hardcode
 // Tu Huynh ID: 'Ub4d35a2b56a1253264c2bcebbe89a62a'
 
-async function processMessage(originalMessage, source, { debt, logs }) {
+async function processMessage(originalMessage, source, debtData) {
   const message = originalMessage.trim().toLowerCase()
 
   // Logging
@@ -13,25 +13,25 @@ async function processMessage(originalMessage, source, { debt, logs }) {
     const num = parseFloat(messageArray[1])
     const [, , ...reasonArray] = messageArray
     const reason = reasonArray.join(' ') || 'No reason'
-    debt = debt + num
+    debtData.debt = debtData.debt + num
 
     const broBotDate = new BroBotDate()
     const isTu = source.userId === 'Ub4d35a2b56a1253264c2bcebbe89a62a'
     const reporter = isTu ? 'Tú' : 'Lâm'
 
-    logs.push({
+    debtData.logs.push({
       date: broBotDate.toString(),
       num,
       reason,
       reporter
     })
 
-    return `Debt of Tú now is ${debt}`
+    return `Debt of Tú now is ${debtData.debt}`
   }
 
   if (message === 'get log') {
     let msg = 'Latest Transactions:\n'
-    const last10logs = logs.slice(Math.max(logs.length - 10, 0))
+    const last10logs = debtData.logs.slice(Math.max(debtData.logs.length - 10, 0))
 
     last10logs.reverse().forEach(log => {
       msg += `${log.num > 0 ? '+' : ''}${log.num} ${log.reason}\n`
@@ -42,14 +42,14 @@ async function processMessage(originalMessage, source, { debt, logs }) {
   if (message === 'get log verbose') {
     let msg = 'Transactions Verbose:\n'
 
-    logs.reverse().forEach(log => {
+    debtData.logs.reverse().forEach(log => {
       msg += `[${log.date}] ${log.num > 0 ? '+' : ''}${log.num} ${log.reason} [${log.reporter}]\n`
     })
     return msg
   }
 
   if (message === 'get debt') {
-    return `Current debt of Tú: ${debt}$ ~ ${debt * 17000}VND`
+    return `Current debt of Tú: ${debtData.debt}$ ~ ${debtData.debt * 17000}VND`
   }
 }
 
