@@ -13,7 +13,7 @@ async function processMessage(originalMessage, source, debtData) {
   if (message.startsWith('log ')) {
     const messageArray = message.split(' ')
     const num = parseFloat(messageArray[1])
-    if (isNaN(num) || num <= 0) {
+    if (isNaN(num)) {
       return "Invalid data bro =='"
     }
     const [, , ...reasonArray] = messageArray
