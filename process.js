@@ -31,7 +31,7 @@ async function processMessage(originalMessage, source, debtData) {
       reporter
     })
 
-    return `Debt of Tú now is ${debtData.debt}`
+    return `Debt of Tú now is ${debtData.debt.toFixed(2)}`
   }
 
   if (message === 'get log' || message === 'get logs') {
@@ -55,7 +55,7 @@ async function processMessage(originalMessage, source, debtData) {
   }
 
   if (message === 'get debt') {
-    return `Current debt of Tú: ${debtData.debt}$ ~ ${(debtData.debt * 17000 / 1000).toFixed()}k VND`
+    return `Current debt of Tú: ${debtData.debt.toFixed(2)}$ ~ ${(debtData.debt * 17000 / 1000).toFixed()}k VND`
   }
 
   if (message === 'link') {
